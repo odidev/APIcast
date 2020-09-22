@@ -10,6 +10,7 @@ sha=$(echo "${S2I_VERSION}" | cut -f2 -d-)
 
 install_s2i(){
   cd /tmp/
+  mkdir -p "${PREFIX}"
   if [ `uname -m` = 'aarch64' ]; then
     wget https://golang.org/dl/go1.15.2.linux-arm64.tar.gz
     sudo tar -C /usr/local -xvzf  go1.15.2.linux-arm64.tar.gz
@@ -19,7 +20,6 @@ install_s2i(){
     hack/build-go.sh
     cp -r _output/local/bin/linux/arm64/* "${PREFIX}"
   else
-    mkdir -p "${PREFIX}"
     wget -T 60 -c "https://github.com/openshift/source-to-image/releases/download/v${version}/source-to-image-v${version}-${sha}-${os}-${arch}.tar.gz" -O source-to-image.tar.gz
     tar -xzf source-to-image.tar.gz -C "${PREFIX}/"
     rm -rf source-to-image.tar.gz
