@@ -1,5 +1,10 @@
 language: c
 sudo: false
+
+arch:
+- amd64
+- arm64
+
 services:
 - docker
 addons:
@@ -28,5 +33,6 @@ env:
 before_install:
 - travis/install-s2i.sh
 - export PATH="${PATH}:${HOME}/openresty/bin:${HOME}/openresty/luajit/bin:${HOME}/openresty/nginx/sbin:${HOME}/bin:${HOME}/.luarocks/bin"
+- if [ `uname -m` = 'aarch64' ]; then npm i -g yarn; fi
 script:
 - make test-doc
